@@ -21,7 +21,12 @@ iface {{ interface.name }} {{ interface.type }} {{ interface.proto }}
 {%- if interface.address is defined %}
   address {{ interface.address }}
   netmask {{ interface.netmask }}
+  {%- if interface.get('gateway', False) %}
+  gateway {{ interface.gateway }}
+  {%- endif %}
+  {%- if pillar.network.get('routes', False) %}
   up /etc/network/routes
+  {%- endif %}
 {%- endif %}  
 
 {%- if interface.options is defined %}
